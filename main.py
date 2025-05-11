@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 from decouple import config
 
 
-
 API_VERSION = '5.131'
 
 
