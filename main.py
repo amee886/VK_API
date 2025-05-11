@@ -1,6 +1,7 @@
 import requests
 from urllib.parse import urlparse
 from decouple import config
+import argparse
 
 
 API_VERSION = '5.131'
@@ -54,8 +55,12 @@ def count_clicks(vk_access_key, short_url):
 
 
 def main():
-    vk_access_key= config("VK_ACCESS_KEY")
-    input_url = input("Введите URL: ")
+    parser = argparse.ArgumentParser(description='Сокращение и статистика по ссылкам VK.')
+    parser.add_argument('url', type=str, help='URL для сокращения или проверки статистики')
+    args = parser.parse_args()
+    
+    vk_access_key = config("VK_ACCESS_KEY")
+    input_url = args.url
 
     try:
         if is_shorten_link(vk_access_key, input_url):
@@ -65,8 +70,6 @@ def main():
         else:
             short_url = shorten_link(vk_access_key, input_url)
             print(f"Сокращенная ссылка: {short_url}")
-    except requests.exceptions.HTTPError:
-        print("Ошибка в запросе")
     except ValueError as ve:
         print(ve)
 
